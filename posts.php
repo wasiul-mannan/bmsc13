@@ -1,3 +1,16 @@
+<?php
+
+include("includes/db.php");
+
+session_start();
+if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
+    echo "<script> window.open('login.php','_self')</script>";
+}
+
+$member_id = $_SESSION['id'];
+$member_name = $_SESSION['name'];
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -58,12 +71,12 @@
                     <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="posts.php">Posts</a></li>
-                        <li class="nav-item"><a class="nav-link link text-white display-4" href="friends.html">Friends</a></li>
-                        <li class="nav-item"><a class="nav-link link text-white display-4" href="profile.html">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link link text-white display-4" href="friends.php">Friends</a></li>
+                        <li class="nav-item"><a class="nav-link link text-white display-4" href="profile.php">Profile</a></li>
                     </ul>
 
                     <div class="navbar-buttons mbr-section-btn">
-                        <a class="btn btn-black display-4" href="">
+                        <a class="btn btn-black display-4" href="logout.php">
                             Logout</a>
                     </div>
 
@@ -142,26 +155,19 @@
     </section>
 
     <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "bmsc_13";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $sql = "SELECT text, image_base64 FROM user_status";
+    $sql = "SELECT member_id, post_text, post_image FROM bmsc13_status  ORDER BY id DESC";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
 
         while ($row = $result->fetch_assoc()) {
 
-            if ($row["image_base64"] != "") {
+            $member_post_id = $row["member_id"];
+            $sql_m = "SELECT name, image FROM bmsc13_members WHERE id='$member_post_id'";
+            $result_m = $conn->query($sql_m);
+            $row_m = $result_m->fetch_assoc();
+
+            if ($row["post_image"] != "") {
     ?>
 
                 <section class="video2 bootcampm5 cid-taHSmqPdEQ mbr-parallax-background" id="avideo2-3">
@@ -169,22 +175,31 @@
                     <div class="align-center container">
                         <div class="row justify-content-center">
                             <div class="col-12 d-flex align-items-center">
-                                <img src="images/images-people1.jpg" style="width: 50px; border-radius: 50%;">
-                                <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2">MD Wasiul Mannan</h4>
+                                <?php if ($row_m["image"] == "") {
+                                ?>
+                                    <img src="images/pro_icon.jpg" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } else {
+                                ?>
+                                    <img src="data:image/png;base64,<?php echo $row_m["image"]; ?>" alt="group" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } ?>
+
+                                <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2"><?php echo $row_m["name"]; ?></h4>
                             </div>
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-12">
                                 <div class="content-wrapper">
                                     <div class="text-wrapper">
-                                        <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><?php echo $row["text"]; ?></h5>
+                                        <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><?php echo $row["post_text"]; ?></h5>
                                     </div>
                                     <div class="col-video">
                                         <div class="box">
                                             <div class="box-bg">
                                             </div>
                                             <div class="mbr-media show-modal align-center">
-                                                <img src="data:image/png;base64,<?php echo $row["image_base64"]; ?>" alt="group" style="height: 100%; width: 100%;">
+                                                <img src="data:image/png;base64,<?php echo $row["post_image"]; ?>" alt="group" style="height: 100%; width: 100%;">
                                             </div>
                                         </div>
                                     </div>
@@ -201,14 +216,23 @@
                     <div class="align-center container">
                         <div class="row justify-content-center">
                             <div class="col-12 d-flex align-items-center">
-                                <img src="images/images-people1.jpg" style="width: 50px; border-radius: 50%;">
-                                <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2">MD Wasiul Mannan</h4>
+                                <?php if ($row_m["image"] == "") {
+                                ?>
+                                    <img src="images/pro_icon.jpg" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } else {
+                                ?>
+                                    <img src="data:image/png;base64,<?php echo $row_m["image"]; ?>" alt="group" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } ?>
+
+                                <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2"><?php echo $row_m["name"]; ?></h4>
                             </div>
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-12">
                                 <div class="content-wrapper">
-                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><?php echo $row["text"]; ?></h5>
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><?php echo $row["post_text"]; ?></h5>
                                 </div>
                             </div>
                         </div>
@@ -218,11 +242,7 @@
     <?php
             }
         }
-    } else {
-        echo "0 results";
     }
-
-    $conn->close();
     ?>
 
     <section class="footer2 bootcampm5 cid-taI1vrEVAM" once="footers" id="afooter2-l">

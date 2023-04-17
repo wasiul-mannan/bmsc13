@@ -7,8 +7,7 @@ if (isset($_POST['submit'])) {
     $phone = $_POST['phone'];
     $password = $_POST['password'];
 
-
-    $run_customers = mysqli_query($conn, "SELECT * FROM coordinator WHERE phone='$phone' AND password='$password' ");
+    $run_customers = mysqli_query($conn, "SELECT * FROM bmsc13_members WHERE phone='$phone' AND password='$password' ");
 
     $row_run_customers = mysqli_fetch_array($run_customers);
 
@@ -16,8 +15,8 @@ if (isset($_POST['submit'])) {
         $_SESSION['phone'] = $phone;
         $_SESSION['password'] = $password;
         $_SESSION['name'] = $row_run_customers['name'];
-        $_SESSION['status'] = $row_run_customers['status'];
-        $_SESSION['batch'] = $row_run_customers['batch'];
+        $_SESSION['id'] = $row_run_customers['id'];
+
         echo "<script>alert('Signin successfully')</script>";
         echo "<script> window.open('index.php','_self')</script>";
     } else {
@@ -26,11 +25,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html>

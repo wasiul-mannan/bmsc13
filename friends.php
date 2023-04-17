@@ -67,13 +67,13 @@
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="posts.php">Posts</a>
                         </li>
                         <li class="nav-item"><a class="nav-link link text-white display-4"
-                                href="friends.html">Friends</a></li>
+                                href="friends.php">Friends</a></li>
                         <li class="nav-item"><a class="nav-link link text-white display-4"
-                                href="profile.html">Profile</a></li>
+                                href="profile.php">Profile</a></li>
                     </ul>
 
                     <div class="navbar-buttons mbr-section-btn">
-                        <a class="btn btn-black display-4" href="">
+                        <a class="btn btn-black display-4" href="logout.php">
                             Logout</a>
                     </div>
                 </div>

@@ -1,33 +1,32 @@
 <?php
-// Connect to the database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bmsc_13";
+include("includes/db.php");
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+session_start();
+if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
+    echo "<script> window.open('login.php','_self')</script>";
 }
 
-// Get the textarea data and image file
-$text = $_POST['textarea_data'];
+$member_id = $_SESSION['id'];
+$member_name = $_SESSION['name'];
+
+
+$post_text = $_POST['textarea_data'];
 $image = $_FILES['myFileInput']['tmp_name'];
+$post_status = "Approved";
 
 if ($image != "") {
     $image_binary = file_get_contents($image);
-    $image_base64 = base64_encode($image_binary);
-    $sql = "INSERT INTO user_status (text, image_base64) VALUES ('$text', '$image_base64')";
+    $post_image = base64_encode($image_binary);
+    $sql = "INSERT INTO bmsc13_status (member_id, post_text, post_image, post_status) VALUES ('$member_id', '$post_text', '$post_image', '$post_status')";
 } else {
-    $sql = "INSERT INTO user_status (text) VALUES ('$text')";
+    $sql = "INSERT INTO bmsc13_status (member_id, post_text, post_status) VALUES ('$member_id', '$post_text', '$post_status')";
 }
 
 
 if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+    echo "<script> window.open('posts.php','_self')</script>";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "<script> window.open('posts.php','_self')</script>";
 }
 $conn->close();

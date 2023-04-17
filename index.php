@@ -1,3 +1,18 @@
+<?php
+
+include("includes/db.php");
+
+session_start();
+if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
+    echo "<script> window.open('login.php','_self')</script>";
+}
+
+$member_id = $_SESSION['id'];
+$member_name = $_SESSION['name'];
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -24,12 +39,9 @@
     <link rel="stylesheet" href="css/css-styles.css">
     <link rel="stylesheet" href="css/css-style.css">
     <link rel="stylesheet" href="css/assets-recaptcha.css">
-    <link rel="preload"
-        href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap"
-        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap">
     </noscript>
     <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css">
     <link rel="stylesheet" href="css/css-mbr-additional.css" type="text/css">
@@ -49,9 +61,7 @@
                 <div class="navbar-brand">
                     <img style="width: 150px;" src="images/2016.png">
                 </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse"
-                    data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <div class="hamburger">
                         <span></span>
                         <span></span>
@@ -64,12 +74,12 @@
                     <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="posts.php">Posts</a></li>
-                        <li class="nav-item"><a class="nav-link link text-white display-4" href="friends.html">Friends</a></li>
-                        <li class="nav-item"><a class="nav-link link text-white display-4" href="profile.html">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link link text-white display-4" href="friends.php">Friends</a></li>
+                        <li class="nav-item"><a class="nav-link link text-white display-4" href="profile.php">Profile</a></li>
                     </ul>
 
                     <div class="navbar-buttons mbr-section-btn">
-                        <a class="btn btn-black display-4" href="">
+                        <a class="btn btn-black display-4" href="logout.php">
                             Logout</a>
                     </div>
                 </div>
@@ -159,74 +169,111 @@
         </div>
     </section>
 
-    <section class="video2 bootcampm5 cid-taHSmqPdEQ mbr-parallax-background" id="avideo2-3">
+    <?php
+    $sql_post = "SELECT member_id, post_text, post_image FROM bmsc13_status ORDER BY id DESC LIMIT 2 ";
+    $result_post = $conn->query($sql_post);
 
-        <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(35, 35, 35);">
-        </div>
-        <div class="align-center container">
-            <div class="row justify-content-center">
-                <div class="col-12 d-flex align-items-center">
-                    <img src="images/images-people1.jpg" style="width: 50px; border-radius: 50%;">
-                    <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2">MD Wasiul Mannan</h4>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="content-wrapper">
-                        <div class="text-wrapper">
-                            <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">Placerat
-                                vestibulum lectus mauris ultrices eros in. Dictum non consectetur a erat. Sed vulputate
-                                odio ut enim blandit volutpat maecenas. Elementum nisi quis eleifend quam adipiscing
-                                vitae proin sagittis. Nibh mauris cursus mattis molestie a iaculis at erat. Varius vel
-                                pharetra vel turpis nunc eget.&nbsp;</h5>
+    if ($result_post->num_rows > 0) {
+
+        while ($row = $result_post->fetch_assoc()) {
+
+            $member_post_id = $row["member_id"];
+            $sql_m = "SELECT name, image FROM bmsc13_members WHERE id='$member_post_id'";
+            $result_post_m = $conn->query($sql_m);
+            $row_m = $result_post_m->fetch_assoc();
+
+            if ($row["post_image"] != "") {
+    ?>
+
+                <section class="video2 bootcampm5 cid-taHSmqPdEQ mbr-parallax-background" id="avideo2-3">
+                    <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(35, 35, 35);"></div>
+                    <div class="align-center container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 d-flex align-items-center">
+                                <?php if ($row_m["image"] == "") {
+                                ?>
+                                    <img src="images/pro_icon.jpg" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } else {
+                                ?>
+                                    <img src="data:image/png;base64,<?php echo $row_m["image"]; ?>" alt="group" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } ?>
+
+                                <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2"><?php echo $row_m["name"]; ?></h4>
+                            </div>
                         </div>
-                        <div class="col-video">
-                            <div class="box">
-                                <div class="box-bg">
-                                </div>
-                                <div class="mbr-media show-modal align-center">
-                                    <img src="images/images-pexels-christina-morillo-1181354.jpg" alt="Mobirise">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="content-wrapper">
+                                    <div class="text-wrapper">
+                                        <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><?php echo $row["post_text"]; ?></h5>
+                                    </div>
+                                    <div class="col-video">
+                                        <div class="box">
+                                            <div class="box-bg">
+                                            </div>
+                                            <div class="mbr-media show-modal align-center">
+                                                <img src="data:image/png;base64,<?php echo $row["post_image"]; ?>" alt="group" style="height: 100%; width: 100%;">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
+            <?php
+            } else {
+            ?>
+                <section class="video2 bootcampm5 cid-taHSmqPdEQ mbr-parallax-background" id="avideo2-3">
+                    <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(35, 35, 35);"></div>
+                    <div class="align-center container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 d-flex align-items-center">
+                                <?php if ($row_m["image"] == "") {
+                                ?>
+                                    <img src="images/pro_icon.jpg" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } else {
+                                ?>
+                                    <img src="data:image/png;base64,<?php echo $row_m["image"]; ?>" alt="group" style="width: 50px; border-radius: 50%;">
+                                <?php
+                                } ?>
 
-            </div>
-        </div>
-    </section>
+                                <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2"><?php echo $row_m["name"]; ?></h4>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="content-wrapper">
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><?php echo $row["post_text"]; ?></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    <?php
+            }
+        }
+    }
+    ?>
 
-    <section class="video2 bootcampm5 cid-taHSmqPdEQ mbr-parallax-background" id="avideo2-3">
-        <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(35, 35, 35);">
-        </div>
-        <div class="align-center container">
+    <section class="video2 bootcampm5 cid-taHSmqPdEQ mbr-parallax-background" id="aheader1-2">
+        <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(35, 35, 35);"></div>
+        <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 d-flex align-items-center">
-                    <img src="images/images-people1.jpg" style="width: 50px; border-radius: 50%;">
-                    <h4 class="mbr-section-title mbr-fonts-style mb-0 display-7 ml-2">MD Wasiul Mannan</h4>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="content-wrapper">
-
-                        <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">Placerat
-                            vestibulum lectus mauris ultrices eros in. Dictum non consectetur a erat. Sed vulputate
-                            odio ut enim blandit volutpat maecenas. Elementum nisi quis eleifend quam adipiscing
-                            vitae proin sagittis. Nibh mauris cursus mattis molestie a iaculis at erat. Varius vel
-                            pharetra vel turpis nunc eget.&nbsp;</h5>
-
+                <div class="col-12 col-lg-12">
+                    <div class="btn-container">
+                        <div class="mbr-section-btn custom-mbr-section-btn align-center">
+                            <div class="custom-section-btn">
+                                <a class="btn btn-black display-4" href="posts.php"> See More Posts </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-            </div>
-
-            <div class="custom-section-btn" style="margin-top: 5%;">
-                <a class="btn btn-black display-4" href="">See More Posts
-                </a>
             </div>
         </div>
-
     </section>
 
     <section style="margin-top: 5%;" class="features6 bootcampm5 cid-taHYSiP3wU" id="afeatures6-e">
@@ -234,70 +281,19 @@
             <div class="row">
                 <div class="content-container col-12">
                     <div class="content-wrapper">
-                        <div class="card-container">
+                        <input type="text" name="search_box" id="search_box" class="form-control" placeholder="Type your search query here" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-
-                            <div class="card-item">
-                                <div class="card-bg"></div>
-                                <div class="card-border">
-                                    <div class="card-box">
-                                        <div class="iconfont-wrapper">
-                                            <img src="images/images-people1.jpg"
-                                                style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
-                                        </div>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            <strong>Md Wasiul Mannan</strong>
-                                        </p>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            <strong>01777902703</strong>
-                                        </p>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            Blood group : <strong style="color: wheat;">o(+)</strong>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-item">
-                                <div class="card-bg"></div>
-                                <div class="card-border">
-                                    <div class="card-box">
-                                        <div class="iconfont-wrapper">
-                                            <img src="images/images-people1.jpg"
-                                                style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
-                                        </div>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            <strong>Md Wasiul Mannan</strong>
-                                        </p>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            <strong>01777902703</strong>
-                                        </p>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            Blood group : <strong style="color: wheat;">o(+)</strong>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-item">
-                                <div class="card-bg"></div>
-                                <div class="card-border">
-                                    <div class="card-box">
-                                        <div class="iconfont-wrapper">
-                                            <img src="images/images-people1.jpg"
-                                                style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
-                                        </div>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            <strong>Md Wasiul Mannan</strong>
-                                        </p>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            <strong>01777902703</strong>
-                                        </p>
-                                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                                            Blood group : <strong style="color: wheat;">o(+)</strong>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
+    <section class="features6 bootcampm5 cid-taHYSiP3wU" id="afeatures6-e">
+        <div class="container">
+            <div class="row">
+                <div class="content-container col-12">
+                    <div class="content-wrapper">
+                        <div class="card-container" id="dynamic_content">
 
                         </div>
                     </div>
@@ -311,8 +307,7 @@
             <div class="media-container-row align-center mbr-white">
                 <div class="col-12">
                     <p class="mbr-text mb-0 mbr-fonts-style align-center display-4">
-                        &copy; Copyright 2023 BMSC,Bogura-2013 - Designed and Developed by <a
-                            href="https://atmotechisf.co">Atmotech IT and Software Firm</a>
+                        &copy; Copyright 2023 BMSC,Bogura-2013 - Designed and Developed by <a href="https://atmotechisf.co">Atmotech IT and Software Firm</a>
                     </p>
                 </div>
             </div>
@@ -330,9 +325,40 @@
     <script src="js/mbr-switch-arrow-mbr-switch-arrow.js"></script>
     <script src="js/js-script.js"></script>
     <script src="js/7462-assets-formoid.min.js"></script>
+    <script type="text/javascript" src="search-js/ajax-jquery.js"></script>
 
+    <script>
+        $(document).ready(function() {
 
+            load_data(1);
 
+            function load_data(page, query = '') {
+                $.ajax({
+                    url: "search_friends.php",
+                    method: "POST",
+                    data: {
+                        page: page,
+                        query: query
+                    },
+                    success: function(data) {
+                        $('#dynamic_content').html(data);
+                    }
+                });
+            }
+
+            $(document).on('click', '.page-link', function() {
+                var page = $(this).data('page_number');
+                var query = $('#search_box').val();
+                load_data(page, query);
+            });
+
+            $('#search_box').keyup(function() {
+                var query = $('#search_box').val();
+                load_data(1, query);
+            });
+
+        });
+    </script>
 </body>
 
 </html>
