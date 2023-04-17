@@ -1,3 +1,37 @@
+<?php
+
+include("includes/db.php");
+session_start();
+
+if (isset($_POST['submit'])) {
+    $phone = $_POST['phone'];
+    $password = $_POST['password'];
+
+
+    $run_customers = mysqli_query($conn, "SELECT * FROM coordinator WHERE phone='$phone' AND password='$password' ");
+
+    $row_run_customers = mysqli_fetch_array($run_customers);
+
+    if ($row_run_customers) {
+        $_SESSION['phone'] = $phone;
+        $_SESSION['password'] = $password;
+        $_SESSION['name'] = $row_run_customers['name'];
+        $_SESSION['status'] = $row_run_customers['status'];
+        $_SESSION['batch'] = $row_run_customers['batch'];
+        echo "<script>alert('Signin successfully')</script>";
+        echo "<script> window.open('index.php','_self')</script>";
+    } else {
+        echo "<script>alert('Signin failed')</script>";
+        echo "<script> window.open('login.php','_self')</script>";
+    }
+}
+?>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -22,12 +56,9 @@
     <link rel="stylesheet" href="css/css-styles.css">
     <link rel="stylesheet" href="css/css-style.css">
     <link rel="stylesheet" href="css/assets-recaptcha.css">
-    <link rel="preload"
-        href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap"
-        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;600;700&amp;display=swap&amp;display=swap">
     </noscript>
     <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css">
     <link rel="stylesheet" href="css/css-mbr-additional.css" type="text/css">
@@ -41,14 +72,13 @@
                     <div class="content-wrapper">
                         <div class="text-wrapper">
                             <img src="images/2016.png" style="width: 250px;margin-bottom: 5%;">
-                            <form action="" method="POST" class="mbr-form form-with-styler mx-auto">
+                            <form action="" method="post" class="mbr-form form-with-styler mx-auto">
                                 <div class="dragArea row">
                                     <div class="col-12 form-group mb-3" data-for="name">
                                         <div class="group-container">
                                             <div class="group-bg"></div>
                                             <div class="group-border">
-                                                <input type="text" name="phone" placeholder="Your phone number"
-                                                    class="form-control">
+                                                <input type="text" name="phone" placeholder="Your phone number" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -56,10 +86,8 @@
                                         <div class="group-container">
                                             <div class="group-bg"></div>
                                             <div class="group-border">
-                                                <input type="password" name="password" placeholder="Your password"
-                                                    class="form-control" id="password-input">
-                                                <span toggle="#password-input"
-                                                    class="field-icon toggle-password">Show</span>
+                                                <input type="password" name="password" placeholder="Your password" class="form-control" id="password-input">
+                                                <span toggle="#password-input" class="field-icon toggle-password">Show</span>
                                             </div>
                                         </div>
                                     </div>
@@ -84,7 +112,7 @@
                                         const passwordInput = document.querySelector("#password-input");
                                         const togglePassword = document.querySelector(".toggle-password");
 
-                                        togglePassword.addEventListener("click", function () {
+                                        togglePassword.addEventListener("click", function() {
                                             const type = passwordInput.getAttribute("type") === "password" ?
                                                 "text" : "password";
                                             passwordInput.setAttribute("type", type);
@@ -121,8 +149,7 @@
             <div class="media-container-row align-center mbr-white">
                 <div class="col-12">
                     <p class="mbr-text mb-0 mbr-fonts-style align-center display-4">
-                        &copy; Copyright 2023 BMSC,Bogura-2013 - Designed and Developed by <a
-                            href="https://atmotechisf.co">Atmotech IT and Software Firm</a>
+                        &copy; Copyright 2023 BMSC,Bogura-2013 - Designed and Developed by <a href="https://atmotechisf.co">Atmotech IT and Software Firm</a>
                     </p>
                 </div>
             </div>

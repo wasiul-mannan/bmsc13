@@ -62,7 +62,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
-                        <li class="nav-item"><a class="nav-link link text-white display-4" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link link text-white display-4" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="posts.php">Posts</a></li>
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="friends.html">Friends</a></li>
                         <li class="nav-item"><a class="nav-link link text-white display-4" href="profile.html">Profile</a></li>
