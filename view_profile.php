@@ -145,9 +145,6 @@ $m_id = $_GET['m_id'];
                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">EMAIL : </h5>
                                 <input type="text" name="email" class="form-control" value="<?php echo $row['email']; ?>" readonly />
 
-                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">GENDER : </h5>
-                                <input type="text" name="gender" class="form-control" value="<?php echo $row['gender']; ?>" readonly />
-
                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">BLOOD GROUP : </h5>
                                 <input type="text" name="blood_group" class="form-control" value="<?php echo $row['blood_group']; ?>" readonly />
 

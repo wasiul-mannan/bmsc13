@@ -10,13 +10,17 @@ if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
 $member_id = $_SESSION['id'];
 $member_name = $_SESSION['name'];
 
+$name_error = "";
+$phone_error = "";
+$blood_group_error = "";
+$present_address_error = "";
+
 if (isset($_POST['submit'])) {
 
     $name = $_POST['name'];
     $image = $_FILES['myFileInput']['tmp_name'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
-    $gender = $_POST['gender'];
     $blood_group = $_POST['blood_group'];
     $occupation = $_POST['occupation'];
     $present_address = $_POST['present_address'];
@@ -26,23 +30,34 @@ if (isset($_POST['submit'])) {
     $twitter_id = $_POST['twitter_id'];
     $linkedin_id = $_POST['linkedin_id'];
     $youtube_channel = $_POST['youtube_channel'];
-
-
-    if ($image != "") {
-        $image_binary = file_get_contents($image);
-        $post_image = base64_encode($image_binary);
-
-        $sql = "UPDATE bmsc13_members SET name='$name', image='$post_image', phone='$phone', email='$email', gender='$gender', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel' WHERE id='$member_id';";
+    $password = $_POST['password'];
+    if ($name == "" or $phone == "" or $blood_group == "" or $present_address == "") {
+        if ($name == "")
+            $name_error = "Insert your name";
+        if ($phone == "")
+            $phone_error = "Insert phone number";
+        if ($blood_group == "")
+            $blood_group_error = "Insert blood group";
+        if ($present_address == "")
+            $present_address_error = "Insert present address";
     } else {
-        $sql = "UPDATE bmsc13_members SET name='$name', phone='$phone', email='$email', gender='$gender', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel' WHERE id='$member_id';";
-    }
+
+        if ($image != "") {
+            $image_binary = file_get_contents($image);
+            $post_image = base64_encode($image_binary);
+
+            $sql = "UPDATE bmsc13_members SET name='$name', image='$post_image', phone='$phone', email='$email', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel',password='$password' WHERE id='$member_id';";
+        } else {
+            $sql = "UPDATE bmsc13_members SET name='$name', phone='$phone', email='$email', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel',password='$password' WHERE id='$member_id';";
+        }
 
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<script> window.open('profile.php','_self')</script>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-        echo "<script> window.open('profile.php','_self')</script>";
+        if ($conn->query($sql) === TRUE) {
+            echo "<script> window.open('profile.php','_self')</script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "<script> window.open('profile.php','_self')</script>";
+        }
     }
 }
 
@@ -186,25 +201,43 @@ if (isset($_POST['submit'])) {
                             <div class="content-wrapper">
                                 <div class="card-container">
 
-                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">NAME : </h5>
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">NAME : <span style="color:red;"><?php echo $name_error; ?></span> </h5>
                                     <input type="text" name="name" class="form-control" value="<?php echo $row['name']; ?>" />
 
-                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PHONE : </h5>
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PHONE : <span style="color:red;"><?php echo $phone_error; ?></span> </h5>
                                     <input type="text" name="phone" class="form-control" value="<?php echo $row['phone']; ?>" />
 
                                     <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">EMAIL : </h5>
                                     <input type="text" name="email" class="form-control" value="<?php echo $row['email']; ?>" />
 
-                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">GENDER : </h5>
-                                    <input type="text" name="gender" class="form-control" value="<?php echo $row['gender']; ?>" />
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">BLOOD GROUP : <span style="color:red;"><?php echo $blood_group_error; ?></span> </h5>
+                                    <?php
+                                    $blood_groups = array(
+                                        'A(+)' => array('A(-)', 'B(+)', 'B(-)', 'O(+)', 'O(-)', 'AB(+)', 'AB(-)'),
+                                        'A(-)' => array('A(+)', 'B(+)', 'B(-)', 'O(+)', 'O(-)', 'AB(+)', 'AB(-)'),
+                                        'B(+)' => array('A(+)', 'A(-)', 'B(-)', 'O(+)', 'O(-)', 'AB(+)', 'AB(-)'),
+                                        'B(-)' => array('A(+)', 'A(-)', 'B(+)', 'O(+)', 'O(-)', 'AB(+)', 'AB(-)'),
+                                        'O(+)' => array('A(+)', 'A(-)', 'B(+)', 'B(-)', 'O(-)', 'AB(+)', 'AB(-)'),
+                                        'O(-)' => array('A(+)', 'A(-)', 'B(+)', 'B(-)', 'O(+)', 'AB(+)', 'AB(-)'),
+                                        'AB(+)' => array('A(+)', 'A(-)', 'B(+)', 'B(-)', 'O(+)', 'O(-)', 'AB(-)'),
+                                        'AB(-)' => array('A(+)', 'A(-)', 'B(+)', 'B(-)', 'O(+)', 'O(-)', 'AB(+)'),
+                                    );
+                                    ?>
+                                    <select name="blood_group" class="form-control">
+                                        <option value="<?php echo $row['blood_group']; ?>"><?php echo $row['blood_group']; ?></option>
+                                        <?php
+                                        $my_blood_group = $row['blood_group'];
+                                        foreach ($blood_groups[$my_blood_group] as $option) { ?>
+                                            <option value="<?php echo $option; ?>"><?php echo $option; ?></option>
+                                        <?php } ?>
+                                    </select>
 
-                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">BLOOD GROUP : </h5>
-                                    <input type="text" name="blood_group" class="form-control" value="<?php echo $row['blood_group']; ?>" />
+
 
                                     <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">OCCUPATION : </h5>
                                     <input type="text" name="occupation" class="form-control" value="<?php echo $row['occupation']; ?>" />
 
-                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PRESENT ADDRESS : </h5>
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PRESENT ADDRESS : <span style="color:red;"><?php echo $present_address_error; ?></span> </h5>
                                     <input type="text" name="present_address" class="form-control" value="<?php echo $row['present_address']; ?>" />
 
                                     <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PERMANENT ADDRESS : </h5>
@@ -224,6 +257,9 @@ if (isset($_POST['submit'])) {
 
                                     <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">YOUTUBE CHANNEL : </h5>
                                     <input type="text" name="youtube_channel" class="form-control" value="<?php echo $row['youtube_channel']; ?>" />
+
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PASSWORD : </h5>
+                                    <input type="text" name="password" class="form-control" value="<?php echo $row['password']; ?>" />
 
                                 </div>
                             </div>
