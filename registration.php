@@ -10,8 +10,12 @@ if (isset($_POST['submit'])) {
     $present_address = $_POST['present_address'];
     $gender = $_POST['gender'];
 
-    if (isset($_POST['share_with_males'])) {
-        $share_with_males = "No";
+    if ($_POST['gender'] == "Female") {
+        if (isset($_POST['share_with_males'])) {
+            $share_with_males = "No";
+        } else {
+            $share_with_males = "Yes";
+        }
     } else {
         $share_with_males = "Yes";
     }

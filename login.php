@@ -16,6 +16,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['password'] = $password;
         $_SESSION['name'] = $row_run_customers['name'];
         $_SESSION['id'] = $row_run_customers['id'];
+        $_SESSION['gender'] = $row_run_customers['gender'];
 
         echo "<script>alert('Signin successfully')</script>";
         echo "<script> window.open('index.php','_self')</script>";

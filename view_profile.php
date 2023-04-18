@@ -9,6 +9,7 @@ if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
 
 $member_id = $_SESSION['id'];
 $member_name = $_SESSION['name'];
+$member_gender = $_SESSION['gender'];
 
 $m_id = $_GET['m_id'];
 ?>
@@ -139,12 +140,27 @@ $m_id = $_GET['m_id'];
                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">NAME : </h5>
                                 <input type="text" name="name" class="form-control" value="<?php echo $row['name']; ?>" readonly />
 
-                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PHONE : </h5>
-                                <input type="text" name="phone" class="form-control" value="<?php echo $row['phone']; ?>" readonly />
+                                <?php
+                                if ($member_gender == $row['gender']) {
+                                ?>
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PHONE : </h5>
+                                    <a class="form-control" href="tel:<?php echo $row['phone']; ?>"><?php echo $row['phone']; ?></a>
 
-                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">EMAIL : </h5>
-                                <input type="text" name="email" class="form-control" value="<?php echo $row['email']; ?>" readonly />
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">EMAIL : </h5>
+                                    <input type="text" name="email" class="form-control" value="<?php echo $row['email']; ?>" readonly />
+                                <?php
+                                }
+                                if ($member_gender != $row['gender'] && $row['share_with_males'] == 'Yes') {
+                                ?>
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PHONE : </h5>
+                                    <a class="form-control" href="tel:<?php echo $row['phone']; ?>"><?php echo $row['phone']; ?></a>
 
+                                    <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">EMAIL : </h5>
+                                    <input type="text" name="email" class="form-control" value="<?php echo $row['email']; ?>" readonly />
+                                <?php
+                                }
+                                ?>
+                                
                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">BLOOD GROUP : </h5>
                                 <input type="text" name="blood_group" class="form-control" value="<?php echo $row['blood_group']; ?>" readonly />
 

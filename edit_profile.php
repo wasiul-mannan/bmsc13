@@ -31,6 +31,7 @@ if (isset($_POST['submit'])) {
     $linkedin_id = $_POST['linkedin_id'];
     $youtube_channel = $_POST['youtube_channel'];
     $password = $_POST['password'];
+    $share_with_males = $_POST['share_with_males'];
     if ($name == "" or $phone == "" or $blood_group == "" or $present_address == "") {
         if ($name == "")
             $name_error = "Insert your name";
@@ -46,9 +47,9 @@ if (isset($_POST['submit'])) {
             $image_binary = file_get_contents($image);
             $post_image = base64_encode($image_binary);
 
-            $sql = "UPDATE bmsc13_members SET name='$name', image='$post_image', phone='$phone', email='$email', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel',password='$password' WHERE id='$member_id';";
+            $sql = "UPDATE bmsc13_members SET name='$name', image='$post_image', phone='$phone', email='$email', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel',password='$password',share_with_males='$share_with_males' WHERE id='$member_id';";
         } else {
-            $sql = "UPDATE bmsc13_members SET name='$name', phone='$phone', email='$email', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel',password='$password' WHERE id='$member_id';";
+            $sql = "UPDATE bmsc13_members SET name='$name', phone='$phone', email='$email', blood_group='$blood_group', occupation='$occupation', present_address='$present_address', permanent_address='$permanent_address', fb_id='$fb_id', insta_id='$insta_id', twitter_id='$twitter_id', linkedin_id='$linkedin_id', youtube_channel='$youtube_channel',password='$password',share_with_males='$share_with_males' WHERE id='$member_id';";
         }
 
 
@@ -259,8 +260,28 @@ if (isset($_POST['submit'])) {
                                     <input type="text" name="youtube_channel" class="form-control" value="<?php echo $row['youtube_channel']; ?>" />
 
                                     <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PASSWORD : </h5>
-                                    <input type="text" name="password" class="form-control" value="<?php echo $row['password']; ?>" />
+                                    <input type="text" name="password" class="form-control" id="password-input" value="<?php echo $row['password']; ?>" />
 
+                                    <?php
+                                    if ($row['gender'] == "Female") {
+                                    ?>
+                                        <h5 style="margin-top: 5%; color:#FAD7A0;" class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">Do you want to share your contact info with male? </h5>
+                                        <?php
+                                        if ($row['share_with_males'] == "Yes") {
+                                        ?>
+                                            <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="Yes" checked /><span style="font-size: 18px !important;  color:#FA0000;">Yes</span>
+                                            <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="No" /><span style="font-size: 18px !important; color:#66FA00;">No</span>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="Yes" /><span style="font-size: 18px !important;  color:#FA0000;">Yes</span>
+                                            <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="No" checked /><span style="font-size: 18px !important; color:#66FA00;">No</span>
+                                        <?php
+                                        }
+                                        ?>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>

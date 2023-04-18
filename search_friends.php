@@ -8,7 +8,7 @@ if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
 
 $member_id = $_SESSION['id'];
 $member_name = $_SESSION['name'];
-
+$member_gender = $_SESSION['gender'];
 
 
 $connect = new PDO("mysql:host=localhost; dbname=bmsc_13", "root", "");
@@ -50,8 +50,9 @@ $total_filter_data = $statement->rowCount();
 
 if ($total_data > 0) {
     foreach ($result as $row) {
-        if ($row["image"] == "") {
-            $output = '
+        if ($member_gender == $row['gender']) {
+            if ($row["image"] == "") {
+                $output = '
                 <div class="card-item" onclick="redirectToProfile(' . $row["id"] . ')">
                     <div class="card-bg"></div>
                     <div class="card-border">
@@ -71,28 +72,115 @@ if ($total_data > 0) {
                             </p>
                         </div>
                     </div>
-            </div>';
-        } else {
-            $output = '
-            <div class="card-item" onclick="redirectToProfile(' . $row["id"] . ')">
-                <div class="card-bg"></div>
-                <div class="card-border">
-                    <div class="card-box">
-                        <div class="iconfont-wrapper">
-                            <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                </div>';
+            } else {
+                $output = '
+                <div class="card-item" onclick="redirectToProfile(' . $row["id"] . ')">
+                    <div class="card-bg"></div>
+                    <div class="card-border">
+                        <div class="card-box">
+                            <div class="iconfont-wrapper">
+                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                            </div>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["name"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["phone"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                Blood group : <strong style="color: wheat;">' . $row["blood_group"] . '</strong>
+                            </p>
                         </div>
-                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                            <strong>' . $row["name"] . '</strong>
-                        </p>
-                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                            <strong>' . $row["phone"] . '</strong>
-                        </p>
-                        <p class="card-title mbr-fonts-style mb-0 display-7">
-                            Blood group : <strong style="color: wheat;">' . $row["blood_group"] . '</strong>
-                        </p>
                     </div>
-                </div>
-        </div>';
+                </div>';
+            }
+        }
+        if ($member_gender != $row['gender'] && $row['share_with_males'] == 'Yes') {
+            if ($row["image"] == "") {
+                $output = '
+                <div class="card-item" onclick="redirectToProfile(' . $row["id"] . ')">
+                    <div class="card-bg"></div>
+                    <div class="card-border">
+                        <div class="card-box">
+                            <div class="iconfont-wrapper">
+                                <img src="images/pro_icon.jpg"
+                                    style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                            </div>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["name"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["phone"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                Blood group : <strong style="color: wheat;">' . $row["blood_group"] . '</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>';
+            } else {
+                $output = '
+                <div class="card-item" onclick="redirectToProfile(' . $row["id"] . ')">
+                    <div class="card-bg"></div>
+                    <div class="card-border">
+                        <div class="card-box">
+                            <div class="iconfont-wrapper">
+                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                            </div>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["name"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["phone"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                Blood group : <strong style="color: wheat;">' . $row["blood_group"] . '</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>';
+            }
+        }
+        if ($member_gender != $row['gender'] && $row['share_with_males'] == 'No') {
+            if ($row["image"] == "") {
+                $output = '
+                <div class="card-item" onclick="redirectToProfile(' . $row["id"] . ')">
+                    <div class="card-bg"></div>
+                    <div class="card-border">
+                        <div class="card-box">
+                            <div class="iconfont-wrapper">
+                                <img src="images/pro_icon.jpg"
+                                    style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                            </div>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["name"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                Blood group : <strong style="color: wheat;">' . $row["blood_group"] . '</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>';
+            } else {
+                $output = '
+                <div class="card-item" onclick="redirectToProfile(' . $row["id"] . ')">
+                    <div class="card-bg"></div>
+                    <div class="card-border">
+                        <div class="card-box">
+                            <div class="iconfont-wrapper">
+                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                            </div>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                <strong>' . $row["name"] . '</strong>
+                            </p>
+                            <p class="card-title mbr-fonts-style mb-0 display-7">
+                                Blood group : <strong style="color: wheat;">' . $row["blood_group"] . '</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>';
+            }
         }
         echo $output;
     }

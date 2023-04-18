@@ -10,7 +10,6 @@ if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
 $member_id = $_SESSION['id'];
 $member_name = $_SESSION['name'];
 
-
 ?>
 
 <!DOCTYPE html>
@@ -171,6 +170,27 @@ $member_name = $_SESSION['name'];
 
                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">YOUTUBE CHANNEL : </h5>
                                 <input type="text" name="youtube_channel" class="form-control" value="<?php echo $row['youtube_channel']; ?>" readonly />
+
+                                <?php
+                                if ($row['gender'] == "Female") {
+                                ?>
+                                    <h5 style="margin-top: 5%; color:#FAD7A0;" class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">Do you want to share your contact info with male? </h5>
+                                    <?php
+                                    if ($row['share_with_males'] == "Yes") {
+                                    ?>
+                                        <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="Yes" checked /><span style="font-size: 18px !important;  color:#FA0000;">Yes</span>
+                                        <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="No" disabled /><span style="font-size: 18px !important; color:#66FA00;">No</span>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="Yes" disabled /><span style="font-size: 18px !important;  color:#FA0000;">Yes</span>
+                                        <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="No" checked /><span style="font-size: 18px !important; color:#66FA00;">No</span>
+                                    <?php
+                                    }
+                                    ?>
+                                <?php
+                                }
+                                ?>
 
                             </div>
                         </div>
