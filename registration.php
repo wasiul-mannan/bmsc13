@@ -4,21 +4,29 @@ include("includes/db.php");
 session_start();
 
 if (isset($_POST['submit'])) {
+
+    $name = $_POST['name'];
     $phone = $_POST['phone'];
+    $present_address = $_POST['present_address'];
+    $gender = $_POST['gender'];
+
+    if (isset($_POST['share_with_males'])) {
+        $share_with_males = "No";
+    } else {
+        $share_with_males = "Yes";
+    }
+
+    $blood_group = $_POST['blood_group'];
     $password = $_POST['password'];
 
-    $run_customers = mysqli_query($conn, "SELECT * FROM bmsc13_members WHERE phone='$phone' AND password='$password' ");
 
-    $row_run_customers = mysqli_fetch_array($run_customers);
+    $sql = "INSERT INTO bmsc13_members (name, phone, present_address, gender, share_with_males, blood_group, password) 
+            VALUES ('$name', '$phone', '$present_address', '$gender', '$share_with_males', '$blood_group', '$password')";
 
-    if ($row_run_customers) {
-        $_SESSION['phone'] = $phone;
-        $_SESSION['password'] = $password;
-        $_SESSION['name'] = $row_run_customers['name'];
-        $_SESSION['id'] = $row_run_customers['id'];
 
-        echo "<script>alert('Signin successfully')</script>";
-        echo "<script> window.open('index.php','_self')</script>";
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>alert('Registration successfull.')</script>";
+        echo "<script> window.open('login.php','_self')</script>";
     } else {
         echo "<script>alert('Signin failed')</script>";
         echo "<script> window.open('login.php','_self')</script>";
@@ -72,7 +80,55 @@ if (isset($_POST['submit'])) {
                                         <div class="group-container">
                                             <div class="group-bg"></div>
                                             <div class="group-border">
+                                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">NAME :</h5>
+                                                <input type="text" name="name" placeholder="Your name" class="form-control">
+                                            </div>
+                                            <div class="group-border">
+                                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PHONE NUMBER :</h5>
                                                 <input type="text" name="phone" placeholder="Your phone number" class="form-control">
+                                            </div>
+                                            <div class="group-border">
+                                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PRESENT ADDRESS :</h5>
+                                                <input type="text" name="present_address" placeholder="Your present address" class="form-control">
+                                            </div>
+                                            <div class="group-border">
+                                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">GENDER :</h5>
+                                                <select class="form-control" name="gender" onchange="showCheckbox(this.value)">
+                                                    <option>Select</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </select>
+
+                                                <div id="checkbox-container" style="display:none;">
+                                                    <label class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">
+                                                        <input type="checkbox" value="No" name="share_with_males" onclick="updateCheckboxValue(this)" checked>I don't want to share my contact information with male.
+                                                    </label>
+                                                </div>
+
+                                                <script>
+                                                    function showCheckbox(value) {
+                                                        var checkboxContainer = document.getElementById("checkbox-container");
+                                                        if (value == "Female") {
+                                                            checkboxContainer.style.display = "block";
+                                                        } else {
+                                                            checkboxContainer.style.display = "none";
+                                                        }
+                                                    }
+                                                </script>
+                                            </div>
+                                            <div class="group-border">
+                                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">BLOOD GROUP :</h5>
+                                                <select class="form-control" name="blood_group">
+                                                    <option>Select</option>
+                                                    <option value="A(+)">A(+)</option>
+                                                    <option value="A(-)">A(-)</option>
+                                                    <option value="B(+)">B(+)</option>
+                                                    <option value="B(-)">B(-)</option>
+                                                    <option value="O(+)">O(+)</option>
+                                                    <option value="O(-)">O(-)</option>
+                                                    <option value="AB(+)">AB(+)</option>
+                                                    <option value="AB(-)">AB(-)</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -80,6 +136,7 @@ if (isset($_POST['submit'])) {
                                         <div class="group-container">
                                             <div class="group-bg"></div>
                                             <div class="group-border">
+                                                <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">ADD NEW PASSWORD FOR THIS ACCOUNT :</h5>
                                                 <input type="password" name="password" placeholder="Your password" class="form-control" id="password-input">
                                                 <span toggle="#password-input" class="field-icon toggle-password">Show</span>
                                             </div>
@@ -116,10 +173,10 @@ if (isset($_POST['submit'])) {
                                     </script>
                                     <div class="col-auto mbr-section-btn custom-mbr-section-btn">
                                         <div class="custom-section-btn">
-                                            <button class="btn btn-black display-4" type="submit" name="submit"> Login
+                                            <button class="btn btn-black display-4" type="submit" name="submit"> REGISTER
                                             </button>
                                         </div>
-                                        <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><a href="registration.php"class="form-control">Click here to create new account.</a></h5>
+                                        <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7"><a href="login.php" class="form-control">Click here to log in into old account.</a></h5>
                                     </div>
                                 </div>
                             </form>
