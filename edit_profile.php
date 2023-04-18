@@ -32,6 +32,7 @@ if (isset($_POST['submit'])) {
     $youtube_channel = $_POST['youtube_channel'];
     $password = $_POST['password'];
     $share_with_males = $_POST['share_with_males'];
+    
     if ($name == "" or $phone == "" or $blood_group == "" or $present_address == "") {
         if ($name == "")
             $name_error = "Insert your name";
@@ -279,6 +280,10 @@ if (isset($_POST['submit'])) {
                                         <?php
                                         }
                                         ?>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <input style="font-size: 18px; margin-left:5%;" type="radio" name="share_with_males" value="Yes" checked hidden />
                                     <?php
                                     }
                                     ?>
