@@ -11,7 +11,7 @@ $member_name = $_SESSION['name'];
 $member_gender = $_SESSION['gender'];
 
 
-$connect = new PDO("mysql:host=localhost; dbname=bmsc_13", "root", "");
+$connect = new PDO("mysql:host=localhost; dbname=fotoynsd_bmsc_13", "fotoynsd_bmsc_13", "fotoynsd_bmsc_13");
 
 
 
