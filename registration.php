@@ -23,17 +23,20 @@ if (isset($_POST['submit'])) {
     $blood_group = $_POST['blood_group'];
     $password = $_POST['password'];
 
+    if ($name == "" && $phone == "" && $present_address == "" && $gender == "" && $blood_group == "" && $password == "") {
+    } else {
 
-    $sql = "INSERT INTO bmsc13_members (name, phone, present_address, gender, share_with_males, blood_group, password) 
+        $sql = "INSERT INTO bmsc13_members (name, phone, present_address, gender, share_with_males, blood_group, password) 
             VALUES ('$name', '$phone', '$present_address', '$gender', '$share_with_males', '$blood_group', '$password')";
 
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Registration successfull.')</script>";
-        echo "<script> window.open('login.php','_self')</script>";
-    } else {
-        echo "<script>alert('Signin failed')</script>";
-        echo "<script> window.open('login.php','_self')</script>";
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Registration successfull.')</script>";
+            echo "<script> window.open('login.php','_self')</script>";
+        } else {
+            echo "<script>alert('Signin failed')</script>";
+            echo "<script> window.open('login.php','_self')</script>";
+        }
     }
 }
 ?>
@@ -85,19 +88,19 @@ if (isset($_POST['submit'])) {
                                             <div class="group-bg"></div>
                                             <div class="group-border">
                                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">NAME :</h5>
-                                                <input type="text" name="name" placeholder="Your name" class="form-control">
+                                                <input type="text" name="name" placeholder="Your name" class="form-control" required>
                                             </div>
                                             <div class="group-border">
                                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PHONE NUMBER :</h5>
-                                                <input type="text" name="phone" placeholder="Your phone number" class="form-control">
+                                                <input type="text" name="phone" placeholder="Your phone number" class="form-control" required>
                                             </div>
                                             <div class="group-border">
                                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">PRESENT ADDRESS :</h5>
-                                                <input type="text" name="present_address" placeholder="Your present address" class="form-control">
+                                                <input type="text" name="present_address" placeholder="Your present address" class="form-control" required>
                                             </div>
                                             <div class="group-border">
                                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">GENDER :</h5>
-                                                <select class="form-control" name="gender" onchange="showCheckbox(this.value)">
+                                                <select class="form-control" name="gender" onchange="showCheckbox(this.value)" required>
                                                     <option>Select</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -122,7 +125,7 @@ if (isset($_POST['submit'])) {
                                             </div>
                                             <div class="group-border">
                                                 <h5 class="mbr-section-subtitle align-left mbr-fonts-style mb-0 display-7">BLOOD GROUP :</h5>
-                                                <select class="form-control" name="blood_group">
+                                                <select class="form-control" name="blood_group" required>
                                                     <option>Select</option>
                                                     <option value="A(+)">A(+)</option>
                                                     <option value="A(-)">A(-)</option>
