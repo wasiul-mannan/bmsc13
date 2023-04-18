@@ -112,8 +112,9 @@ $member_name = $_SESSION['name'];
                             <div class="image-wrapper">
                                 <div class="img-bg"></div>
                                 <div class="img-box">
-                                    <img src="images/group1.jpg" alt="Mobirise Website Builder">
-                                    <img src="images/group2.jpg" alt="Mobirise Website Builder">
+                                    <img src="images/group1.jpg" alt="science iftar 2016">
+                                    <img src="images/group2.jpg" alt="science iftar 2019">
+                                    <img src="images/group3.jpg" alt="science iftar 2022">
                                 </div>
                             </div>
                         </div>
