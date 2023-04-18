@@ -156,13 +156,7 @@ $member_name = $_SESSION['name'];
                 <div class="col-12 col-lg-12">
                     <div class="btn-container">
                         <div class="mbr-section-btn custom-mbr-section-btn align-center">
-                            <!-- <div class="custom-section-btn">
-                                <a class="btn btn-black display-4" href=""><span
-                                        class="mobi-mbri mobi-mbri-to-local-drive mbr-iconfont mbr-iconfont-btn"></span>
-
-                                    Download Syllabus
-                                </a>
-                            </div> -->
+                            
                         </div>
                     </div>
                 </div>
