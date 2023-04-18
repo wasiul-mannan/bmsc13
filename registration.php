@@ -5,9 +5,14 @@ session_start();
 
 if (isset($_POST['submit'])) {
 
-    $name = $_POST['name'];
+    $name1 = $_POST['name'];
+    $name = mysqli_real_escape_string($conn, $name1);
+
     $phone = $_POST['phone'];
-    $present_address = $_POST['present_address'];
+
+    $present_address1 = $_POST['present_address'];
+    $present_address = mysqli_real_escape_string($conn, $present_address1);
+
     $gender = $_POST['gender'];
 
     if ($_POST['gender'] == "Female") {
@@ -21,7 +26,8 @@ if (isset($_POST['submit'])) {
     }
 
     $blood_group = $_POST['blood_group'];
-    $password = $_POST['password'];
+    $password1 = $_POST['password'];
+    $password = mysqli_real_escape_string($conn, $password1);
 
     if ($name == "" && $phone == "" && $present_address == "" && $gender == "" && $blood_group == "" && $password == "") {
     } else {

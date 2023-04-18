@@ -5,7 +5,8 @@ session_start();
 
 if (isset($_POST['submit'])) {
     $phone = $_POST['phone'];
-    $password = $_POST['password'];
+    $password1 = $_POST['password'];
+    $password = mysqli_real_escape_string($conn, $password1);
 
     $run_customers = mysqli_query($conn, "SELECT * FROM bmsc13_members WHERE phone='$phone' AND password='$password' ");
 

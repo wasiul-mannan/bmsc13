@@ -9,8 +9,9 @@ if (!isset($_SESSION['phone']) && !isset($_SESSION['password'])) {
 $member_id = $_SESSION['id'];
 $member_name = $_SESSION['name'];
 
+$post_text1 = $_POST['textarea_data'];
+$post_text = mysqli_real_escape_string($conn, $post_text1);
 
-$post_text = $_POST['textarea_data'];
 $image = $_FILES['myFileInput']['tmp_name'];
 $post_status = "Approved";
 

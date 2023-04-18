@@ -17,22 +17,42 @@ $present_address_error = "";
 
 if (isset($_POST['submit'])) {
 
-    $name = $_POST['name'];
+    $name1 = $_POST['name'];
+    $name = mysqli_real_escape_string($conn, $name1);
+
     $image = $_FILES['myFileInput']['tmp_name'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
     $blood_group = $_POST['blood_group'];
-    $occupation = $_POST['occupation'];
-    $present_address = $_POST['present_address'];
-    $permanent_address = $_POST['permanent_address'];
-    $fb_id = $_POST['fb_id'];
-    $insta_id = $_POST['insta_id'];
-    $twitter_id = $_POST['twitter_id'];
-    $linkedin_id = $_POST['linkedin_id'];
-    $youtube_channel = $_POST['youtube_channel'];
-    $password = $_POST['password'];
+    $occupation1 = $_POST['occupation'];
+    $occupation = mysqli_real_escape_string($conn, $occupation1);
+
+    $present_address1 = $_POST['present_address'];
+    $present_address = mysqli_real_escape_string($conn, $present_address1);
+
+    $permanent_address1 = $_POST['permanent_address'];
+    $permanent_address = mysqli_real_escape_string($conn, $permanent_address1);
+
+    $fb_id1 = $_POST['fb_id'];
+    $fb_id = mysqli_real_escape_string($conn, $fb_id1);
+
+    $insta_id1 = $_POST['insta_id'];
+    $insta_id = mysqli_real_escape_string($conn, $insta_id1);
+
+    $twitter_id1 = $_POST['twitter_id'];
+    $twitter_id = mysqli_real_escape_string($conn, $twitter_id1);
+
+    $linkedin_id1 = $_POST['linkedin_id'];
+    $linkedin_id = mysqli_real_escape_string($conn, $linkedin_id1);
+
+    $youtube_channel1 = $_POST['youtube_channel'];
+    $youtube_channel = mysqli_real_escape_string($conn, $youtube_channel1);
+
+    $password1 = $_POST['password'];
+    $password = mysqli_real_escape_string($conn, $password1);
+
     $share_with_males = $_POST['share_with_males'];
-    
+
     if ($name == "" or $phone == "" or $blood_group == "" or $present_address == "") {
         if ($name == "")
             $name_error = "Insert your name";
