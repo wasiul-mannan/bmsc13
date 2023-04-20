@@ -110,7 +110,7 @@ $member_name = $_SESSION['name'];
                                             <?php
                                             if ($row['image'] == "") {
                                             ?>
-                                                <img src="images/pro_icon.jpg" style="width: 100%; justify-content: center; align-items: center; border-radius: 50%;">
+                                                <img src="images/pro_icon.jpg" style="width: 100%; height:150px; justify-content: center; align-items: center; border-radius: 50%;">
                                             <?php
                                             } else {
                                             ?>

@@ -80,7 +80,7 @@ if ($total_data > 0) {
                     <div class="card-border">
                         <div class="card-box">
                             <div class="iconfont-wrapper">
-                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; height:150px; justify-content: center; align-items: center; border-radius: 50%;">
                             </div>
                             <p class="card-title mbr-fonts-style mb-0 display-7">
                                 <strong>' . $row["name"] . '</strong>
@@ -126,7 +126,7 @@ if ($total_data > 0) {
                     <div class="card-border">
                         <div class="card-box">
                             <div class="iconfont-wrapper">
-                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; height:150px; justify-content: center; align-items: center; border-radius: 50%;">
                             </div>
                             <p class="card-title mbr-fonts-style mb-0 display-7">
                                 <strong>' . $row["name"] . '</strong>
@@ -169,7 +169,7 @@ if ($total_data > 0) {
                     <div class="card-border">
                         <div class="card-box">
                             <div class="iconfont-wrapper">
-                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; justify-content: center; align-items: center; border-radius: 50%;">
+                                <img src="data:image/png;base64,' . $row["image"] . '" id="preview" alt="group" style="width: 150px; height:150px; justify-content: center; align-items: center; border-radius: 50%;">
                             </div>
                             <p class="card-title mbr-fonts-style mb-0 display-7">
                                 <strong>' . $row["name"] . '</strong>

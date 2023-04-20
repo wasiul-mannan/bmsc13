@@ -116,7 +116,7 @@ $m_id = $_GET['m_id'];
                                             <?php
                                             } else {
                                             ?>
-                                                <img src="data:image/png;base64,<?php echo $row["image"]; ?>" id="preview" alt="group" style="width: 100%; justify-content: center; align-items: center; border-radius: 50%;">
+                                                <img src="data:image/png;base64,<?php echo $row["image"]; ?>" id="preview" alt="group" style="width: 100%; height:150px; justify-content: center; align-items: center; border-radius: 50%;">
                                             <?php
                                             }
                                             ?>
